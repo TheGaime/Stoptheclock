@@ -1,2 +1,2 @@
 # Stoptheclock
-stop the clock
+stop the clock to not be blocked
