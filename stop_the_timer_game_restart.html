@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop the Timer Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #timer {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        #message {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: green;
+        }
+        #startPrompt {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="startPrompt">Click to Start the Game</div>
+    <div id="timer">0.00</div>
+    <div id="message">The fruits of technology clicknsnap is what you seek</div>
+
+    <script>
+        let timerInterval;
+        let startTime;
+        const timerElement = document.getElementById('timer');
+        const messageElement = document.getElementById('message');
+        const startPrompt = document.getElementById('startPrompt');
+
+        document.body.addEventListener('click', startTimer);
+
+        function startTimer() {
+            document.body.removeEventListener('click', startTimer);
+            startPrompt.style.display = 'none';
+            timerElement.textContent = '0.00';
+            messageElement.style.display = 'none';
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 10);
+            document.body.addEventListener('click', stopTimerOnce);
+        }
+
+        function updateTimer() {
+            const elapsedTime = (Date.now() - startTime) / 1000;
+            timerElement.textContent = elapsedTime.toFixed(2);
+        }
+
+        function stopTimerOnce() {
+            clearInterval(timerInterval);
+            document.body.removeEventListener('click', stopTimerOnce);
+            checkTime(parseFloat(timerElement.textContent));
+        }
+
+        function checkTime(time) {
+            if (time >= 9.99 && time <= 10.01) {
+                messageElement.style.display = 'block';
+            } else {
+                startPrompt.style.display = 'block';
+                startPrompt.textContent = 'Try Again! Click to Restart';
+                document.body.addEventListener('click', startTimer);
+            }
+        }
+    </script>
+</body>
+</html>
